@@ -95,11 +95,11 @@ function comparar(a, b) {
 // que se ingrese en la funcion. Pueden ingresar: type, base_damage, base_hp o speed.
 
 function sortPokemos(argument) {
-  let validarInput = ["type", "base_damage", "speed"];
+  let validarInput = ["id", "name", "type", "base_damage", "base_hp", "speed"];
 
   if (validarInput.includes(argument)) {
     let result =
-      argument === "type"
+      argument === "type" || argument === "name"
         ? pokemons.sort((a, b) => a[argument].localeCompare(b[argument]))
         : pokemons.sort((a, b) => a[argument] - b[argument]);
 
@@ -179,7 +179,7 @@ function agregarAtribu() {
   // console.log(nuevoarr);
 }
 
-agregarAtribu();
+// agregarAtribu();
 // console.log(pokemons);
 
 //7. Crear una funcion que determine el daño que hara un pokemon elegido de la lista ante una posible pelea, para ello considerar que el daño que hara el pokemon es:
@@ -203,10 +203,92 @@ function setDamage(indice) {
 // que el que tenga un mayor valor posible de base_damage + max_damage
 // sea el que este primero en la lista y asi sucesivamente.
 
-pokemons.sort((a, b) => {
-  const x = b.base_damage + b.max_damage;
-  const y = a.base_damage + a.max_damage;
-  return x - y;
-});
+// pokemons.sort((a, b) => {
+//   const x = b.base_damage + b.max_damage;
+//   const y = a.base_damage + a.max_damage;
+//   return x - y;
+// });
 
 console.log(pokemons);
+
+//9. Crear una lista desordenada de Pokemons en nuestro documento HTML
+
+const root = document.getElementById("root");
+
+const h1 = document.createElement("h1");
+h1.textContent = "Pokemons";
+h1.style.color = "#3DC6BB";
+h1.style.textAlign = "center";
+root.appendChild(h1);
+
+const ul = document.createElement("ul");
+root.append(ul);
+
+pokemons.forEach((pokemon) => {
+  const li = document.createElement("li");
+  li.textContent = pokemon.name;
+  // li.addEventListener("click", () => setDamage(1));
+  ul.append(li);
+});
+
+//10. Utilizando javascript crear una tabla de pokemons con las siguientes columnas:
+//  id, name, type, base_damage, base_hp, speed
+
+let tabla = document.createElement("table");
+tabla.border = 1;
+
+root.append(tabla);
+
+// let tblBody = document.createElement("tbody");
+// tabla.appendChild(tblBody);
+
+let tr = document.createElement("tr");
+tabla.append(tr);
+
+// Headers
+for (const property in pokemons[0]) {
+  console.log(property);
+  const th = document.createElement("th");
+  th.textContent = property;
+  th.style.backgroundColor = "black";
+  th.style.color = "white";
+
+  th.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    sortPokemos(property);
+    tabla.innerHTML = "";
+
+    tabla.append(tr);
+    renderBody();
+  });
+
+  tr.append(th);
+}
+
+// Tabla body
+
+function renderBody() {
+  for (let i = 0; i < pokemons.length; i++) {
+    let trb = document.createElement("tr");
+    trb.style.color = "#907CEC";
+    trb.style.textAlign = "center";
+
+    let values = Object.values(pokemons[i]);
+    console.log(values);
+
+    for (let j = 0; j < values.length; j++) {
+      const tdb = document.createElement("td");
+      tdb.textContent = values[j];
+      trb.append(tdb);
+    }
+    tabla.append(trb);
+  }
+}
+
+renderBody();
+
+//11. Utilizando javascript modifica el codigo creado en el ejecicio anterior
+//  y agrega un evento que permita ordenar los pokemons haciendo click en sus encabezados.
+
+//12. Corrige la function sortPokemons para que acepte ordenarlos segun id y name.
