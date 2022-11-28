@@ -1,11 +1,14 @@
 body {
+  /* background-color: #222;
+  color: white; */
   font-family: Arial, Helvetica, sans-serif;
   padding: 32px;
 }
-button {
+button,
+select {
   border: none;
   border-radius: 8px;
-  box-shadow: 2px 2px 3px 0 black;
+  box-shadow: 4px 4px 0 0 gray;
   color: #fff;
   display: inline-block;
   font-weight: bold;
@@ -15,11 +18,19 @@ button {
   text-transform: uppercase;
 }
 
+select {
+  color: black;
+}
+
 table,
 th,
 td {
-  border: 2px solid black;
+  border: 2px solid #444;
   border-collapse: collapse;
+}
+
+table {
+  width: 100%;
 }
 
 tbody td:first-child {
@@ -31,7 +42,10 @@ th,
 td {
   padding: 8px 10px;
 }
-/* #3CBDB2
+
+/*
+#3CBDB2
 #9984FC
 #D2BF5F
-#E93C46 */
+#E93C46 
+ */

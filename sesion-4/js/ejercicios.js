@@ -21,7 +21,7 @@ const create = () => {
     profesion: array[3],
 
     //Primero instanciamos new Date() y luego le aplicamos el método toISOString()
-    created_date: new Date().toISOString(),
+    created_at: new Date().toISOString(),
   });
   // console.log(users);
 };
@@ -82,35 +82,59 @@ const create = () => {
 //   },
 // ];
 
-// Crear una funcion que permita ordenar la lista de usuarios por fecha de creacion, de la mas nueva a la mas antigua y viceversa
-// utilizando el parametro booleano reverse (si es true se ordenaran de nuevo a antiguo)
+// Crear una funcion que permita ordenar la lista de usuarios por
+// fecha de creacion, de la mas nueva a la mas antigua y viceversa
+// utilizando el parametro booleano reverse (si es true se
+// ordenaran de nuevo a antiguo)
+
+function ordenarUsuarios(reverse) {
+  users.sort((a, b) => {
+    if (reverse) {
+      return b.created_at.localeCompare(a.created_at);
+    }
+    return a.created_at.localeCompare(b.created_at);
+  });
+  console.log(users);
+}
+// ordenarUsuarios(false);
 
 //13. Crear una funcion que permita filtrar los usuarios por mes y año de creacion.
 
-function filtrarUsuarios(year, month) {
-  month = month - 1;
-
+function filtrarUsuarios(anioAfiltrar, mesAFiltrar) {
   const usersFilter = users.filter((element) => {
-    let fecha = element.created_at;
-    // console.log(fecha);
+    let fechaDeCreacion = new Date(element.created_at);
+    let mesDeCreacion = fechaDeCreacion.getMonth() + 1;
+    let anioDeCreacion = fechaDeCreacion.getFullYear();
 
-    let nuevoDate = new Date(fecha);
-    // console.log(nuevoDate);
+    // no filtrar
+    if (anioAfiltrar === 0 && mesAFiltrar === 0) {
+      return true;
+    }
 
-    let mes = nuevoDate.getMonth();
-    // console.log(mes);
+    // solo year
+    if (anioAfiltrar > 0 && mesAFiltrar === 0) {
+      if (anioDeCreacion === anioAfiltrar) {
+        return true;
+      }
+    }
 
-    let anio = nuevoDate.getFullYear();
-    // console.log(anio);
+    // solo month
+    if (anioAfiltrar === 0 && mesAFiltrar > 0) {
+      if (mesDeCreacion === mesAFiltrar) {
+        return true;
+      }
+    }
 
-    if (anio === year && mes === month) {
-      // console.log("heh");
+    // year y month
+    if (mesDeCreacion === anioAfiltrar && mesDeCreacion === mesAFiltrar) {
       return true;
     }
   });
-  console.log(usersFilter);
+
+  // console.log(usersFilter);
+  return usersFilter;
 }
-filtrarUsuarios(2021, 12);
+// filtrarUsuarios(2021, 12);
 
 //14. Elaborar un programa que permita al admin a traves de prompts y alerts lo siguiente:
 // CREATE
@@ -140,8 +164,13 @@ filtrarUsuarios(2021, 12);
 // OPCIONAL2: Crear un selector que permita filtrar los datos por fecha.
 
 // Registro
+const registroFiltro = {
+  year: 0,
+  month: 0,
+};
+
 const registroOrden = {
-  column: "edad",
+  column: "",
   asc: true,
 };
 
@@ -153,6 +182,49 @@ const updateBtn = document.createElement("button");
 const deleteBtn = document.createElement("button");
 const table = document.createElement("table");
 
+// year select
+const selectYear = document.createElement("select");
+
+const yearOptAll = document.createElement("option");
+yearOptAll.value = 0;
+yearOptAll.textContent = "Todo";
+
+const yearOpt1 = document.createElement("option");
+yearOpt1.value = 2021;
+yearOpt1.textContent = "2021";
+
+const yearOpt2 = document.createElement("option");
+yearOpt2.value = 2022;
+yearOpt2.textContent = "2022";
+
+selectYear.appendChild(yearOptAll);
+selectYear.appendChild(yearOpt1);
+selectYear.appendChild(yearOpt2);
+
+// month select
+const selectMonth = document.createElement("select");
+
+const monthOptAll = document.createElement("option");
+monthOptAll.value = 0;
+monthOptAll.textContent = "Todo";
+
+const monthOpt1 = document.createElement("option");
+monthOpt1.value = 1;
+monthOpt1.textContent = "Enero";
+
+const monthOpt2 = document.createElement("option");
+monthOpt2.value = 4;
+monthOpt2.textContent = "Abril";
+
+const monthOpt3 = document.createElement("option");
+monthOpt3.value = 12;
+monthOpt3.textContent = "Diciembre";
+
+selectMonth.appendChild(monthOptAll);
+selectMonth.appendChild(monthOpt1);
+selectMonth.appendChild(monthOpt2);
+selectMonth.appendChild(monthOpt3);
+
 createBtn.textContent = "Crear";
 createBtn.style.backgroundColor = "#3CBDB2";
 updateBtn.textContent = "Modificar registro";
@@ -162,22 +234,36 @@ deleteBtn.textContent = "Borrar registro";
 deleteBtn.style.backgroundColor = "#E93C46";
 
 // Mostrar en pantalla
+root.appendChild(selectYear);
+root.appendChild(selectMonth);
 root.appendChild(createBtn);
 root.appendChild(updateBtn);
 root.appendChild(deleteBtn);
 root.appendChild(table);
 
+selectYear.addEventListener("change", (e) => {
+  // console.log("on change month: " + e.target.value);
+
+  // Convertimos el parámetro a número
+  filtrarYear(+e.target.value);
+});
+
+selectMonth.addEventListener("change", (e) => {
+  // console.log("on change month: " + e.target.value);
+  filtrarMonth(+e.target.value);
+});
+
 createBtn.addEventListener("click", () => {
   create();
-  renderizar(users);
+  renderizar();
 });
 updateBtn.addEventListener("click", () => {
   update();
-  renderizar(users);
+  renderizar();
 });
 deleteBtn.addEventListener("click", () => {
   remove();
-  renderizar(users);
+  renderizar();
 });
 
 function update() {
@@ -234,19 +320,18 @@ function remove() {
   users.splice(index, 1);
 }
 
-function renderizar(data) {
-  // data = [
-  //   { nombre: "Lara", apellido: "Lopez" },
-  //   { nombre: "Mari", apellido: "Diaz" },
-  //   { nombre: "Luis", apellido: "Rodrigues" },
-  // ];
-
-  console.log(registroOrden);
-
-  data = users;
+// Esta función es quien va a filtrar, ordenar y dibujar la tabla
+function renderizar() {
+  // Lo que me retorne la función filtrarUsuarios() le asigno a data
+  let data = filtrarUsuarios(registroFiltro.year, registroFiltro.month);
 
   // Ordenamos
+  // Nota: a > b = 1 | a < b = -1 | si (a) es a (b) = 0(no hace nada)
+
   data.sort((a, b) => {
+    if (registroOrden.column === "") {
+      return 0;
+    }
     if (registroOrden.column === "edad") {
       return registroOrden.asc ? a.edad - b.edad : b.edad - a.edad;
     }
@@ -270,6 +355,9 @@ function renderizar(data) {
 
     th.addEventListener("click", () => {
       console.log(property);
+
+      // Llamamos a ordenar(...) y le pasamos como parámetro la cabecera que se
+      // dió click
       ordenar(property);
     });
 
@@ -299,19 +387,33 @@ function renderizar(data) {
 }
 
 // Configurar el registro
+// Setear la propiedad column
 function ordenar(column) {
   if (registroOrden.column === column) {
     // Invertimos el valor a false y se lo asignamos
     registroOrden.asc = !registroOrden.asc;
   } else {
-    // si es distinta el argumento del valor que tiene column
-    // Guardamos la nueva columa
+    // Si la propiedad column es distinta al argumento
+    // Le asignamos a la propiedad column lo que recibimos por el parámetro
+    // column
     registroOrden.column = column;
 
     // asc = true
     registroOrden.asc = true;
   }
 
+  renderizar();
+}
+
+// Acá lo que hace es asiganar a la propiedad year el parámetro que recibe
+// función y llamamos a renderizar
+function filtrarYear(year) {
+  registroFiltro.year = year;
+  renderizar();
+}
+
+function filtrarMonth(month) {
+  registroFiltro.month = month;
   renderizar();
 }
 
