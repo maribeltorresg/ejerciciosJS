@@ -28,7 +28,7 @@ option3.textContent = "C";
 // Selector para anios de experiencia
 const selectAnios = document.createElement("select");
 const optionAnios0 = document.createElement("option");
-optionAnios0.textContent = "Selecciona los anios de servicio";
+optionAnios0.textContent = "Selecciona los años de servicio";
 
 const optionAnios1 = document.createElement("option");
 optionAnios1.value = 0.15;
@@ -86,7 +86,10 @@ form.addEventListener("submit", (e) => {
   const sueldoBruto = sueldoBase + montoBonificacion;
   const sueldoNeto = sueldoBruto * 0.8;
 
-  pSueldo.textContent = `${nombre} con un sueldo de S/ ${sueldoBase}`;
-  pBonificacion.textContent = `Con una bonificacion de S/ ${montoBonificacion}`;
-  pSueldoNeto.textContent = `Sueldo neto a cobra es: S/ ${sueldoNeto}`;
+  let selectCategoria = selectC.options[selectC.selectedIndex].text;
+  let selectAniosServicio = selectAnios.options[selectAnios.selectedIndex].text;
+
+  pSueldo.innerHTML = `${nombre} de Categroría ${selectCategoria} y con ${selectAniosServicio} años de servicio recibirá: <br></br> Sueldo básico: S/ ${sueldoBase}`;
+  pBonificacion.textContent = `Bonificacion por años de servicio: S/ ${montoBonificacion}`;
+  pSueldoNeto.textContent = `Sueldo neto: S/ ${sueldoNeto}`;
 });
