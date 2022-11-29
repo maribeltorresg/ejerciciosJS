@@ -50,6 +50,10 @@ const botonSubmit = document.createElement("button");
 botonSubmit.setAttribute("type", "submit");
 botonSubmit.textContent = "Calcular";
 
+const botonReset = document.createElement("button");
+botonReset.setAttribute("type", "reset");
+botonReset.textContent = "Reset";
+
 let divContenedor = document.createElement("div");
 let pSueldo = document.createElement("p");
 let pBonificacion = document.createElement("p");
@@ -70,6 +74,7 @@ form.appendChild(inputHoras);
 form.appendChild(selectC);
 form.appendChild(selectAnios);
 form.appendChild(botonSubmit);
+form.appendChild(botonReset);
 root.appendChild(divContenedor);
 divContenedor.appendChild(pSueldo);
 divContenedor.appendChild(pBonificacion);
@@ -86,6 +91,7 @@ form.addEventListener("submit", (e) => {
   const sueldoBruto = sueldoBase + montoBonificacion;
   const sueldoNeto = sueldoBruto * 0.8;
 
+  // Texto seleccionado y  guardo en una variable
   let selectCategoria = selectC.options[selectC.selectedIndex].text;
   let selectAniosServicio = selectAnios.options[selectAnios.selectedIndex].text;
 
