@@ -1,0 +1,26 @@
+body {
+  color: darkslateblue;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+}
+
+/* .card {
+  background-color: red;
+} */
+
+select {
+  border-radius: 8px;
+  padding: 10px 8px;
+}
+
+.card {
+  box-shadow: rgba(3, 3, 3, 0.525) 10px 5px 10px 5px;
+}
+
+#pokemon-name {
+  font-size: 2rem;
+}
