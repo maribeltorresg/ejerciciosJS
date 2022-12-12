@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  </head>
+  <body>
+    <div ng-app="myApp" ng-controller="myCtrl">
+      <h3>MULTIPLAN</h3>
+      <p>
+        Ingrese la distancia recorrida:
+        <input type="text" ng-model="distance" />
+      </p>
+      <p>{{distance}} km</p>
+      <p>Tarifa: S/ {{calcularTarifa()}}</p>
+      <p>Tiene un descuento de: {{descuento()}}</p>
+      <p>Total a pagar: S/ {{calcularTarifa() - descuento()}}</p>
+    </div>
+
+    <script>
+      let app = angular.module("myApp", []);
+
+      app.controller("myCtrl", function ($scope) {
+        $scope.distance = 0;
+
+        $scope.calcularTarifa = function () {
+          if ($scope.distance <= 300) {
+            return 250;
+          } else if ($scope.distance <= 1000) {
+            return 250 + 30 * ($scope.distance - 300);
+          } else {
+            return 250 + 30 * (1000 - 300) + 20 * ($scope.distance - 1000);
+          }
+        };
+
+        $scope.descuento = function () {
+          let tarifa = $scope.calcularTarifa();
+          if (tarifa >= 500) {
+            return tarifa * 0.1;
+          }
+        };
+      });
+    </script>
+  </body>
+</html>
