@@ -1,0 +1,17 @@
+form {
+  text-align: center;
+}
+
+table {
+  text-align: center;
+}
+
+th,
+td {
+  padding: 8px;
+}
+
+input {
+  display: block;
+  margin: auto;
+}
