@@ -1,0 +1,15 @@
+Caso Propuesto:
+Se lee por teclado el código del empleado, número de horas trabajadas, 
+tarifa por hora. Calcular el salario básico, considerando 
+la siguiente tabla de descuento.
+
+Sueldo bruto             Descuento (%)
+Menor 500                0
+Entre 501 y 1000         2%
+Entre 1001 y 4000        8%
+Entre 4001 y 8000        15%
+Entre 8001 y 10000       21%
+Mayor 10000              30%
+
+
+Crear una aplicación web que permita calcular el básico, descuento y salario neto.
