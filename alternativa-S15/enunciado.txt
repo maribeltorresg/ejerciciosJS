@@ -1,0 +1,15 @@
+// Crear un servidor en node.js incluyendo cors que
+// responda con un array de usuarios:
+
+// let users = [
+//   { nombre: "Javier", apellido: "Pacheco", correo: "javier@mail.com" },
+//   { nombre: "Andres", apellido: "Polanco", correo: "andres@mail.com" },
+//   { nombre: "Julian", apellido: "Mattos", correo: "julian@mail.com" },
+//   { nombre: "Andrea", apellido: "Sarmiento", correo: "andrea@mail.com" },
+//   { nombre: "Jazmin", apellido: "Gonzales", correo: "jazmin@mail.com" },
+// ];
+
+// Utilizar el array para renderizar una lista
+// de usuarios en el documento HTML utilizando Javascript.
+
+// https://expressjs.com/en/resources/middleware/cors.html
